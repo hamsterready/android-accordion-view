@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="image_labeled_button">
+        <attr name="icon_resource" format="reference" />
+        <attr name="icon_label" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="toggle_image_labeled_button">
+        <attr name="icon_resource_off" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="accordion">
+        <attr name="header_layout_id" format="reference" />
+        <attr name="header_layout_fold_button_id" format="reference" />
+        <attr name="header_layout_label_id" format="reference" />
+        <attr name="custom_font" format="string" />
+        <attr name="section_headers" format="reference" />
+        <attr name="section_container" format="reference"/>
+        <attr name="section_container_parent" format="reference"/>
+        <attr name="section_bottom" format="reference"/>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Accordion View</string>
+
+    <string-array name="accordion_sections">
+        <item>Section A</item>
+        <item>Section B</item>
+        <item>Section C</item>
+        <item>Section D</item>
+        <item>Section E</item>
+    </string-array>
+
+</resources>
