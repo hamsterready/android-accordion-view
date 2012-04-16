@@ -61,9 +61,9 @@ public class AccordionView extends LinearLayout {
       }
     }
 
-    if (headerLayoutId == 0 || headerFoldButton == 0 || headerLabel == 0 || sectionContainer == 0 || sectionContainerParent == 0 || sectionBottom == 0) {
+    if (headerLayoutId == 0 || /*headerFoldButton == 0 ||*/ headerLabel == 0 || sectionContainer == 0 || sectionContainerParent == 0 || sectionBottom == 0) {
       throw new IllegalArgumentException(
-          "Please set all header_layout_id, header_layout_fold_button_id, header_layout_label_id, section_container, section_container_parent and section_bottom attributes.");
+          "Please set all header_layout_id,  header_layout_label_id, section_container, section_container_parent and section_bottom attributes.");
     }
 
   }
@@ -89,6 +89,12 @@ public class AccordionView extends LinearLayout {
       public View getView(final int position, View convertView, ViewGroup parent) {
         final View view = super.getView(position, convertView, parent);
         FontUtils.setCustomFont(view, customFont);
+        
+        // -- support for no fold button
+        if(headerFoldButton == 0) {
+          return view;
+        }
+        
         final View foldButton = view.findViewById(headerFoldButton);
 
         if (foldButton instanceof ToggleImageLabeledButton) {
