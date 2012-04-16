@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,7 @@ public class AccordionView extends LinearLayout {
       super.onFinishInflate();
       return;
     }
-
+    
     final int childCount = getChildCount();
     if (sectionHeaders.length != childCount) {
       throw new IllegalArgumentException("Section headers string array length must be equal to accordion view child count.");
@@ -136,7 +137,7 @@ public class AccordionView extends LinearLayout {
     }
 
     final SeparatedListAdapter adapter = new SeparatedListAdapter(getContext(), headersAdapater);
-
+    
     for (int i = 0; i < childCount; i++) {
       final int childIndex = i;
       final String sectionKey = sectionHeaders[i];
@@ -192,6 +193,7 @@ public class AccordionView extends LinearLayout {
     listView.setDividerHeight(0);
     listView.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
     listView.setAdapter(adapter);
+    listView.setFocusable(false);
     addView(listView);
     initialized = true;
 
@@ -207,4 +209,7 @@ public class AccordionView extends LinearLayout {
     return null;
   }
 
+  public int getOriginalChildCount() {
+    return originalChildren.length;
+  }
 }
