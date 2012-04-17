@@ -6,9 +6,7 @@ package com.sentaca.android.accordion.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.sentaca.android.accordion.R;
 import com.sentaca.android.accordion.utils.FontUtils;
@@ -62,7 +59,7 @@ public class AccordionView extends LinearLayout {
       }
     }
 
-    if (headerLayoutId == 0 || /*headerFoldButton == 0 ||*/ headerLabel == 0 || sectionContainer == 0 || sectionContainerParent == 0 || sectionBottom == 0) {
+    if (headerLayoutId == 0 || headerLabel == 0 || sectionContainer == 0 || sectionContainerParent == 0 || sectionBottom == 0) {
       throw new IllegalArgumentException(
           "Please set all header_layout_id,  header_layout_label_id, section_container, section_container_parent and section_bottom attributes.");
     }
@@ -75,7 +72,7 @@ public class AccordionView extends LinearLayout {
       super.onFinishInflate();
       return;
     }
-    
+
     final int childCount = getChildCount();
     if (sectionHeaders.length != childCount) {
       throw new IllegalArgumentException("Section headers string array length must be equal to accordion view child count.");
@@ -90,12 +87,12 @@ public class AccordionView extends LinearLayout {
       public View getView(final int position, View convertView, ViewGroup parent) {
         final View view = super.getView(position, convertView, parent);
         FontUtils.setCustomFont(view, customFont);
-        
+
         // -- support for no fold button
-        if(headerFoldButton == 0) {
+        if (headerFoldButton == 0) {
           return view;
         }
-        
+
         final View foldButton = view.findViewById(headerFoldButton);
 
         if (foldButton instanceof ToggleImageLabeledButton) {
@@ -103,7 +100,7 @@ public class AccordionView extends LinearLayout {
           toggleButton.setState(newChildren[position].getVisibility() == VISIBLE);
         }
 
-        foldButton.setOnClickListener(new OnClickListener() {
+        OnClickListener onClickListener = new OnClickListener() {
 
           @Override
           public void onClick(View v) {
@@ -113,7 +110,9 @@ public class AccordionView extends LinearLayout {
               // TODO WARN here
             }
           }
-        });
+        };
+        foldButton.setOnClickListener(onClickListener);
+        view.setOnClickListener(onClickListener);
         return view;
       };
     };
@@ -137,7 +136,7 @@ public class AccordionView extends LinearLayout {
     }
 
     final SeparatedListAdapter adapter = new SeparatedListAdapter(getContext(), headersAdapater);
-    
+
     for (int i = 0; i < childCount; i++) {
       final int childIndex = i;
       final String sectionKey = sectionHeaders[i];
