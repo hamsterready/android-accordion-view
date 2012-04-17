@@ -10,7 +10,6 @@
         android:id="@+id/accordion_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        accordion:custom_font="fonts/roboto/Roboto-Regular.ttf"
         accordion:header_layout_fold_button_id="@id/foldButton"
         accordion:header_layout_id="@layout/accordion_header"
         accordion:header_layout_label_id="@id/foldText"

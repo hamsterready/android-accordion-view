@@ -26,7 +26,7 @@ public class AccordionWidgetDemoActivity extends Activity {
     LinearLayout ll = (LinearLayout) v.getChildById(R.id.example_get_by_id);
     TextView tv = new TextView(this);
     tv.setText("Added in runtime...");
-    FontUtils.setCustomFont(tv, Typeface.createFromAsset(getAssets(), "fonts/roboto/Roboto-Regular.ttf"));
+    FontUtils.setCustomFont(tv, getAssets());
     ll.addView(tv);
 
   }

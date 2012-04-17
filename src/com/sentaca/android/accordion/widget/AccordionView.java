@@ -5,7 +5,6 @@ package com.sentaca.android.accordion.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +31,6 @@ public class AccordionView extends LinearLayout {
   private int sectionContainerParent;
   private int sectionBottom;
 
-  private Typeface customFont;
   private String[] sectionHeaders;
   private View[] originalChildren;
 
@@ -52,11 +50,6 @@ public class AccordionView extends LinearLayout {
         throw new IllegalArgumentException("Please set section_headers as reference to strings array.");
       }
       sectionHeaders = getResources().getStringArray(sectionheadersResourceId);
-
-      final String customFontString = a.getString(R.styleable.accordion_custom_font);
-      if (customFontString != null) {
-        customFont = Typeface.createFromAsset(context.getAssets(), customFontString);
-      }
     }
 
     if (headerLayoutId == 0 || headerLabel == 0 || sectionContainer == 0 || sectionContainerParent == 0 || sectionBottom == 0) {
@@ -86,7 +79,7 @@ public class AccordionView extends LinearLayout {
     final ArrayAdapter<String> headersAdapater = new ArrayAdapter<String>(getContext(), headerLayoutId, headerLabel) {
       public View getView(final int position, View convertView, ViewGroup parent) {
         final View view = super.getView(position, convertView, parent);
-        FontUtils.setCustomFont(view, customFont);
+        FontUtils.setCustomFont(view, AccordionView.this.getContext().getAssets());
 
         // -- support for no fold button
         if (headerFoldButton == 0) {
@@ -131,7 +124,7 @@ public class AccordionView extends LinearLayout {
       final ViewGroup newParent = (ViewGroup) container.findViewById(sectionContainerParent);
       newParent.addView(newChildren[i]);
       newChildren[i] = container;
-      FontUtils.setCustomFont(newChildren[i], customFont);
+      FontUtils.setCustomFont(newChildren[i], AccordionView.this.getContext().getAssets());
       newChildren[i].setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
     }
 
