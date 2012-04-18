@@ -57,12 +57,7 @@ public class FontUtils {
   }
 
   public static void setCustomFont(View topView, AssetManager assetsManager) {
-    if (normal == null || bold == null || condensed == null || light == null) {
-      normal = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Regular.ttf");
-      bold = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Bold.ttf");
-      condensed = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Condensed.ttf");
-      light = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Light.ttf");
-    }
+    initTypefaces(assetsManager);
 
     if (topView instanceof ViewGroup) {
       setCustomFont((ViewGroup) topView);
@@ -71,8 +66,22 @@ public class FontUtils {
     }
   }
 
+  private static void initTypefaces(AssetManager assetsManager) {
+    if (normal == null || bold == null || condensed == null || light == null) {
+      normal = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Regular.ttf");
+      bold = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Bold.ttf");
+      condensed = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Condensed.ttf");
+      light = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Light.ttf");
+    }
+  }
+
   private static void setCustomFont(ViewGroup v) {
     final int len = v.getChildCount();
     processsViewGroup(v, len);
+  }
+
+  public static Typeface getTypefaceNormal(AssetManager assetsManager) {
+    initTypefaces(assetsManager);
+    return normal;
   }
 }
