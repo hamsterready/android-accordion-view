@@ -10,6 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class FontUtils {
+  public static final String TAG_LIGHT = "light";
+
+  public static final String TAG_CONDENSED = "condensed";
+
+  public static final String TAG_BOLD = "bold";
+
   private static Typeface normal;
 
   private static Typeface bold;
@@ -33,15 +39,16 @@ public class FontUtils {
   private static void setCustomFont(TextView c) {
     Object tag = c.getTag();
     if (tag instanceof String) {
-      if (((String) tag).contains("bold")) {
+      final String tagString = (String) tag;
+      if (tagString.contains(TAG_BOLD)) {
         c.setTypeface(bold);
         return;
       }
-      if (((String) tag).contains("condensed")) {
+      if (tagString.contains(TAG_CONDENSED)) {
         c.setTypeface(condensed);
         return;
       }
-      if (((String) tag).contains("light")) {
+      if (tagString.contains(TAG_LIGHT)) {
         c.setTypeface(light);
         return;
       }
