@@ -23,7 +23,7 @@ public class AccordionWidgetDemoActivity extends Activity {
 
     final AccordionView v = (AccordionView) findViewById(R.id.accordion_view);
 
-    LinearLayout ll = (LinearLayout) v.getChildById(R.id.example_get_by_id);
+    LinearLayout ll = (LinearLayout) v.findViewById(R.id.example_get_by_id);
     TextView tv = new TextView(this);
     tv.setText("Added in runtime...");
     FontUtils.setCustomFont(tv, getAssets());

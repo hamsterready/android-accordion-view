@@ -9,11 +9,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.sentaca.android.accordion.R;
@@ -22,7 +19,6 @@ import com.sentaca.android.accordion.utils.FontUtils;
 public class AccordionView extends LinearLayout {
 
   private boolean initialized = false;
-  private ListView listView;
 
   // -- from xml parameter
   private int headerLayoutId;
@@ -86,20 +82,14 @@ public class AccordionView extends LinearLayout {
     }
     removeAllViews();
 
-    final ScrollView scroll = new ScrollView(getContext());
-    LinearLayout wrapper = new LinearLayout(getContext());
-    wrapper.setOrientation(VERTICAL);
-    scroll.addView(wrapper);
-
     for (int i = 0; i < childCount; i++) {
       wrappedChildren[i] = getView(inflater, i);
       View header = getViewHeader(inflater, i);
       View footer = getViewFooter(inflater);
-      wrapper.addView(header);
-      wrapper.addView(wrappedChildren[i]);
-      wrapper.addView(footer);
+      addView(header);
+      addView(wrappedChildren[i]);
+      addView(footer);
     }
-    addView(scroll);
 
     initialized = true;
 

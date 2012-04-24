@@ -6,81 +6,86 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
-    <com.sentaca.android.accordion.widget.AccordionView
-        android:id="@+id/accordion_view"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        accordion:header_layout_fold_button_id="@id/foldButton"
-        accordion:header_layout_id="@layout/accordion_header"
-        accordion:header_layout_label_id="@id/foldText"
-        accordion:section_bottom="@layout/accordion_footer"
-        accordion:section_container="@layout/accordion_section"
-        accordion:section_container_parent="@id/section_content"
-        accordion:section_headers="@array/accordion_sections"
-        android:background="#fff5f5f5"
-        android:orientation="vertical" >
+        android:layout_height="fill_parent" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item 1" />
-
-        <LinearLayout
-            android:id="@+id/example_get_by_id"
+        <com.sentaca.android.accordion.widget.AccordionView
+            android:id="@+id/accordion_view"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            accordion:header_layout_fold_button_id="@id/foldButton"
+            accordion:header_layout_id="@layout/accordion_header"
+            accordion:header_layout_label_id="@id/foldText"
+            accordion:section_bottom="@layout/accordion_footer"
+            accordion:section_container="@layout/accordion_section"
+            accordion:section_container_parent="@id/section_content"
+            accordion:section_headers="@array/accordion_sections"
+            android:background="#fff5f5f5"
             android:orientation="vertical" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item 2" />
+                android:text="Item 1" />
+
+            <LinearLayout
+                android:id="@+id/example_get_by_id"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item 2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item 3" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item 3" />
-        </LinearLayout>
+                android:text="Item 4" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item 4" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+                <RatingBar
+                    android:id="@+id/ratingBar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <RatingBar
-                android:id="@+id/ratingBar1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/editText1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/editText1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <SeekBar
+                    android:id="@+id/seekBar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <SeekBar
-                android:id="@+id/seekBar1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <!--
+            <!--
         Nesting list is bad idea... touch events would have to be dispatched to nested list... complex, use linear layout and populate in runtime.
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" 
             android:id="@+id/innerListView">
         </ListView>
-        -->
+            -->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item 4" />
-    </com.sentaca.android.accordion.widget.AccordionView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item 4" />
+        </com.sentaca.android.accordion.widget.AccordionView>
+    </ScrollView>
 
 </LinearLayout>
