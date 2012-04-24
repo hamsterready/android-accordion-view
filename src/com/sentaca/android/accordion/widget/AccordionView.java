@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.sentaca.android.accordion.R;
 import com.sentaca.android.accordion.utils.FontUtils;
@@ -20,7 +22,6 @@ import com.sentaca.android.accordion.utils.FontUtils;
 public class AccordionView extends LinearLayout {
 
   private boolean initialized = false;
-  private View[] newChildren;
   private ListView listView;
 
   // -- from xml parameter
@@ -32,7 +33,9 @@ public class AccordionView extends LinearLayout {
   private int sectionBottom;
 
   private String[] sectionHeaders;
-  private View[] originalChildren;
+
+  private View[] children;
+  private View[] wrappedChildren;
 
   public AccordionView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -46,6 +49,7 @@ public class AccordionView extends LinearLayout {
       sectionContainerParent = a.getResourceId(R.styleable.accordion_section_container_parent, 0);
       sectionBottom = a.getResourceId(R.styleable.accordion_section_bottom, 0);
       int sectionheadersResourceId = a.getResourceId(R.styleable.accordion_section_headers, 0);
+
       if (sectionheadersResourceId == 0) {
         throw new IllegalArgumentException("Please set section_headers as reference to strings array.");
       }
@@ -57,6 +61,7 @@ public class AccordionView extends LinearLayout {
           "Please set all header_layout_id,  header_layout_label_id, section_container, section_container_parent and section_bottom attributes.");
     }
 
+    setOrientation(VERTICAL);
   }
 
   @Override
@@ -67,141 +72,99 @@ public class AccordionView extends LinearLayout {
     }
 
     final int childCount = getChildCount();
+    children = new View[childCount];
+    wrappedChildren = new View[childCount];
+
     if (sectionHeaders.length != childCount) {
       throw new IllegalArgumentException("Section headers string array length must be equal to accordion view child count.");
     }
 
-    this.newChildren = new View[childCount];
-    this.originalChildren = new View[childCount];
-
-    final OnClickListener[] sectionListeners = new OnClickListener[childCount];
-
-    final ArrayAdapter<String> headersAdapater = new ArrayAdapter<String>(getContext(), headerLayoutId, headerLabel) {
-      public View getView(final int position, View convertView, ViewGroup parent) {
-        final View view = super.getView(position, convertView, parent);
-        FontUtils.setCustomFont(view, AccordionView.this.getContext().getAssets());
-
-        // -- support for no fold button
-        if (headerFoldButton == 0) {
-          return view;
-        }
-
-        final View foldButton = view.findViewById(headerFoldButton);
-
-        if (foldButton instanceof ToggleImageLabeledButton) {
-          final ToggleImageLabeledButton toggleButton = (ToggleImageLabeledButton) foldButton;
-          toggleButton.setState(newChildren[position].getVisibility() == VISIBLE);
-        }
-
-        OnClickListener onClickListener = new OnClickListener() {
-
-          @Override
-          public void onClick(View v) {
-            if (sectionListeners[position] != null) {
-              sectionListeners[position].onClick(v);
-            } else {
-              // TODO WARN here
-            }
-          }
-        };
-        foldButton.setOnClickListener(onClickListener);
-        view.setOnClickListener(onClickListener);
-        return view;
-      };
-    };
+    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     for (int i = 0; i < childCount; i++) {
-      newChildren[i] = getChildAt(i);
-      originalChildren[i] = getChildAt(i);
+      children[i] = getChildAt(i);
     }
-
     removeAllViews();
 
-    final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    for (int i = 0; i < childCount; i++) {
-      final View container = inflater.inflate(sectionContainer, null);
-      // cast, XXX check it later
-      final ViewGroup newParent = (ViewGroup) container.findViewById(sectionContainerParent);
-      newParent.addView(newChildren[i]);
-      newChildren[i] = container;
-      FontUtils.setCustomFont(newChildren[i], AccordionView.this.getContext().getAssets());
-      newChildren[i].setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
-    }
-
-    final SeparatedListAdapter adapter = new SeparatedListAdapter(getContext(), headersAdapater);
+    final ScrollView scroll = new ScrollView(getContext());
+    LinearLayout wrapper = new LinearLayout(getContext());
+    wrapper.setOrientation(VERTICAL);
+    scroll.addView(wrapper);
 
     for (int i = 0; i < childCount; i++) {
-      final int childIndex = i;
-      final String sectionKey = sectionHeaders[i];
-      adapter.addSection(sectionKey, new BaseAdapter() {
-
-        @Override
-        public View getView(int position, View arg1, ViewGroup arg2) {
-          if (newChildren[childIndex].getVisibility() == GONE && position == 0 || position == 1) {
-            return inflater.inflate(sectionBottom, null);
-          }
-
-          return newChildren[childIndex];
-        }
-
-        @Override
-        public long getItemId(int arg0) {
-          return 0;
-        }
-
-        @Override
-        public Object getItem(int arg0) {
-          return null;
-        }
-
-        @Override
-        public int getCount() {
-          if (newChildren[childIndex].getVisibility() == GONE) {
-            return 1;
-          }
-          return 2;
-        }
-      });
-
-      sectionListeners[childIndex] = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-          final BaseAdapter sectionAdapter = (BaseAdapter) adapter.getSections().get(sectionKey);
-
-          if (newChildren[childIndex].getVisibility() == VISIBLE) {
-            newChildren[childIndex].setVisibility(GONE);
-          } else {
-            newChildren[childIndex].setVisibility(VISIBLE);
-          }
-          sectionAdapter.notifyDataSetChanged();
-
-        }
-      };
+      wrappedChildren[i] = getView(inflater, i);
+      View header = getViewHeader(inflater, i);
+      View footer = getViewFooter(inflater);
+      wrapper.addView(header);
+      wrapper.addView(wrappedChildren[i]);
+      wrapper.addView(footer);
     }
+    addView(scroll);
 
-    listView = new ListView(getContext());
-    listView.setDivider(null);
-    listView.setDividerHeight(0);
-    listView.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
-    listView.setAdapter(adapter);
-    listView.setFocusable(false);
-    addView(listView);
     initialized = true;
 
     super.onFinishInflate();
   }
 
+  private View getViewFooter(LayoutInflater inflater) {
+    return inflater.inflate(sectionBottom, null);
+  }
+
+  private View getViewHeader(LayoutInflater inflater, final int position) {
+    final View view = inflater.inflate(headerLayoutId, null);
+    ((TextView) view.findViewById(headerLabel)).setText(sectionHeaders[position]);
+
+    FontUtils.setCustomFont(view, AccordionView.this.getContext().getAssets());
+
+    // -- support for no fold button
+    if (headerFoldButton == 0) {
+      return view;
+    }
+
+    final View foldButton = view.findViewById(headerFoldButton);
+
+    if (foldButton instanceof ToggleImageLabeledButton) {
+      final ToggleImageLabeledButton toggleButton = (ToggleImageLabeledButton) foldButton;
+      toggleButton.setState(wrappedChildren[position].getVisibility() == VISIBLE);
+    }
+
+    OnClickListener onClickListener = new OnClickListener() {
+
+      @Override
+      public void onClick(View v) {
+        if (wrappedChildren[position].getVisibility() == VISIBLE) {
+          wrappedChildren[position].setVisibility(GONE);
+        } else {
+          wrappedChildren[position].setVisibility(VISIBLE);
+        }
+      }
+    };
+    foldButton.setOnClickListener(onClickListener);
+    view.setOnClickListener(onClickListener);
+
+    return view;
+  }
+
+  private View getView(final LayoutInflater inflater, int i) {
+    final View container = inflater.inflate(sectionContainer, null);
+    container.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
+    final ViewGroup newParent = (ViewGroup) container.findViewById(sectionContainerParent);
+    newParent.addView(children[i]);
+    FontUtils.setCustomFont(container, AccordionView.this.getContext().getAssets());
+    if (container.getId() == -1) {
+      container.setId(i);
+    }
+    return container;
+  }
+
   public View getChildById(int id) {
-    for (int i = 0; i < originalChildren.length; i++) {
-      if (originalChildren[i].getId() == id) {
-        return originalChildren[i];
+    for (int i = 0; i < wrappedChildren.length; i++) {
+      View v = wrappedChildren[i].findViewById(id);
+      if (v != null) {
+        return v;
       }
     }
     return null;
   }
 
-  public int getOriginalChildCount() {
-    return originalChildren.length;
-  }
 }

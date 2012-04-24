@@ -4,8 +4,8 @@
 package com.sentaca.android.accordion;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +28,5 @@ public class AccordionWidgetDemoActivity extends Activity {
     tv.setText("Added in runtime...");
     FontUtils.setCustomFont(tv, getAssets());
     ll.addView(tv);
-
   }
 }
