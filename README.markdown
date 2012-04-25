@@ -1,3 +1,16 @@
+Android Accordion View
+======================
+
+Example
+-------
+
+Screenshot
+----------
+![Screenshot](screenshot.png)
+
+License
+-------
+
 The MIT License
 
 Copyright (c) 2011 Sentaca Poland sp. z o.o. / http://sentaca.com/

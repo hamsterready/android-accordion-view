@@ -5,6 +5,7 @@ package com.sentaca.android.accordion.utils;
 
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ public class FontUtils {
   public static final String TAG_CONDENSED = "condensed";
 
   public static final String TAG_BOLD = "bold";
+
+  private static final int ICE_CREAM_SANDWITCH = 14;
 
   private static Typeface normal;
 
@@ -57,6 +60,9 @@ public class FontUtils {
   }
 
   public static void setCustomFont(View topView, AssetManager assetsManager) {
+    if (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWITCH) {
+      return;
+    }
     initTypefaces(assetsManager);
 
     if (topView instanceof ViewGroup) {
