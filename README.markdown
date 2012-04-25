@@ -3,10 +3,16 @@ Android Accordion View
 
 Example
 -------
+ * git pull
+ * import to eclipse
+ * properties->android uncheck is library
+ * run as android application
+
+See [main.xml](android-accordion-view/blob/master/res/layout/main.xml).
 
 Screenshot
 ----------
-![Screenshot](screenshot.png)
+![Screenshot](android-accordion-view/screenshot.png)
 
 License
 -------
