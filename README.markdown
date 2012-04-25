@@ -12,7 +12,7 @@ See [main.xml](android-accordion-view/blob/master/res/layout/main.xml).
 
 Screenshot
 ----------
-![Screenshot](android-accordion-view/screenshot.png)
+![Screenshot](android-accordion-view/raw/master/screenshot.png)
 
 License
 -------
