@@ -118,7 +118,7 @@ public class AccordionView extends LinearLayout {
       toggleButton.setState(wrappedChildren[position].getVisibility() == VISIBLE);
     }
 
-    OnClickListener onClickListener = new OnClickListener() {
+    final OnClickListener onClickListener = new OnClickListener() {
 
       @Override
       public void onClick(View v) {
@@ -130,7 +130,20 @@ public class AccordionView extends LinearLayout {
       }
     };
     foldButton.setOnClickListener(onClickListener);
-    view.setOnClickListener(onClickListener);
+    view.setOnClickListener(new OnClickListener() {
+
+      @Override
+      public void onClick(View v) {
+
+        onClickListener.onClick(v);
+
+        if (foldButton instanceof ToggleImageLabeledButton) {
+          final ToggleImageLabeledButton toggleButton = (ToggleImageLabeledButton) foldButton;
+          toggleButton.setState(wrappedChildren[position].getVisibility() == VISIBLE);
+        }
+
+      }
+    });
 
     return view;
   }
