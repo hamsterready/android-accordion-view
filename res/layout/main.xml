@@ -72,15 +72,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <!--
-        Nesting list is bad idea... touch events would have to be dispatched to nested list... complex, use linear layout and populate in runtime.
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" 
-            android:id="@+id/innerListView">
-        </ListView>
-            -->
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
