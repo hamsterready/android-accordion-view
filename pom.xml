@@ -4,7 +4,7 @@
   <groupId>com.sentaca.android</groupId>
   <artifactId>accordion-view</artifactId>
   <packaging>apklib</packaging>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <name>Accordion View</name>
   <dependencies>
     <dependency>
