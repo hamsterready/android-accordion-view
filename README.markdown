@@ -8,11 +8,11 @@ Example
  * properties->android uncheck is library
  * run as android application
 
-See [main.xml](android-accordion-view/blob/master/res/layout/main.xml).
+See [main.xml](https://github.com/hamsterready/android-accordion-view/blob/master/res/layout/main.xml).
 
 Screenshot
 ----------
-![Screenshot](android-accordion-view/raw/master/screenshot.png)
+![Screenshot](https://raw.github.com/hamsterready/android-accordion-view/master/screenshot.png)
 
 License
 -------
