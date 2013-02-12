@@ -21,6 +21,7 @@
             accordion:section_container="@layout/accordion_section"
             accordion:section_container_parent="@id/section_content"
             accordion:section_headers="@array/accordion_sections"
+            accordion:section_visibility="@array/accordion_visibility"
             android:background="#fff5f5f5"
             android:orientation="vertical" >
 

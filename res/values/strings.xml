@@ -11,4 +11,12 @@
         <item>Section E</item>
     </string-array>
 
+    <integer-array name="accordion_visibility">
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+
 </resources>
