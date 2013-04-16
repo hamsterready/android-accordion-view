@@ -72,6 +72,12 @@ public class AccordionView extends LinearLayout {
     setOrientation(VERTICAL);
   }
 
+  private void assertWrappedChildrenPosition(int position) {
+    if (wrappedChildren == null || position >= wrappedChildren.length) {
+      throw new IllegalArgumentException("Cannot toggle section " + position + ".");
+    }
+  }
+
   public View getChildById(int id) {
     for (int i = 0; i < wrappedChildren.length; i++) {
       View v = wrappedChildren[i].findViewById(id);
@@ -128,11 +134,7 @@ public class AccordionView extends LinearLayout {
 
       @Override
       public void onClick(View v) {
-        if (wrappedChildren[position].getVisibility() == VISIBLE) {
-          wrappedChildren[position].setVisibility(GONE);
-        } else {
-          wrappedChildren[position].setVisibility(VISIBLE);
-        }
+        toggleSection(position);
       }
     };
     foldButton.setOnClickListener(onClickListener);
@@ -196,6 +198,28 @@ public class AccordionView extends LinearLayout {
     initialized = true;
 
     super.onFinishInflate();
+  }
+
+  /**
+   * 
+   * @param position
+   * @param visibility
+   *          {@link View#GONE} and {@link View#VISIBLE}
+   */
+  public void setSectionVisibility(int position, int visibility) {
+    assertWrappedChildrenPosition(position);
+
+    wrappedChildren[position].setVisibility(visibility);
+  }
+
+  public void toggleSection(int position) {
+    assertWrappedChildrenPosition(position);
+
+    if (wrappedChildren[position].getVisibility() == VISIBLE) {
+      setSectionVisibility(position, GONE);
+    } else {
+      setSectionVisibility(position, VISIBLE);
+    }
   }
 
 }
