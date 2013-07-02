@@ -6,6 +6,7 @@ package com.sentaca.android.accordion.utils;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -43,20 +44,22 @@ public class FontUtils {
     Object tag = c.getTag();
     if (tag instanceof String) {
       final String tagString = (String) tag;
-      if (tagString.contains(TAG_BOLD)) {
+      if (tagString.contains(TAG_BOLD) && bold != null) {
         c.setTypeface(bold);
         return;
       }
-      if (tagString.contains(TAG_CONDENSED)) {
+      if (tagString.contains(TAG_CONDENSED) && condensed != null) {
         c.setTypeface(condensed);
         return;
       }
-      if (tagString.contains(TAG_LIGHT)) {
+      if (tagString.contains(TAG_LIGHT) && light != null) {
         c.setTypeface(light);
         return;
       }
     }
-    c.setTypeface(normal);
+    if(normal != null) {
+      c.setTypeface(normal);
+    }
   }
 
   public static void setCustomFont(View topView, AssetManager assetsManager) {
@@ -74,11 +77,21 @@ public class FontUtils {
 
   private static void initTypefaces(AssetManager assetsManager) {
     if (normal == null || bold == null || condensed == null || light == null) {
-      normal = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Regular.ttf");
-      bold = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Bold.ttf");
-      condensed = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Condensed.ttf");
-      light = Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Light.ttf");
+      normal = loadTypeface(assetsManager, "fonts/roboto/Roboto-Regular.ttf");
+      bold = loadTypeface(assetsManager, "fonts/roboto/Roboto-Bold.ttf");
+      condensed = loadTypeface(assetsManager, "fonts/roboto/Roboto-Condensed.ttf");
+      light = loadTypeface(assetsManager, "fonts/roboto/Roboto-Light.ttf");
     }
+  }
+  
+  private static Typeface loadTypeface(AssetManager assetsManager, String path) {
+    try {
+      return Typeface.createFromAsset(assetsManager, "fonts/roboto/Roboto-Regular.ttf"); 
+	} catch(RuntimeException e) {
+	  // May occur rarely, on a few devices
+	  Log.d("SentacaAccordionView", "Unable to load Typeface from " + path, e);
+	}
+	return null;
   }
 
   private static void setCustomFont(ViewGroup v) {
