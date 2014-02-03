@@ -3,3 +3,4 @@
 bin
 gen
 target
+/lint.xml
